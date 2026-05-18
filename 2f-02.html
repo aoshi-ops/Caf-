@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>桜間のメモ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="2f-02">
+  <main class="app-shell" aria-live="polite">
+    <header class="memo-header">
+      <p class="back-label">メモ</p>
+      <p class="date-label">最近</p>
+    </header>
+
+    <section id="notes" class="notes" aria-label="桜間のメモ">
+      <article class="note">
+        <h1>桜間のメモ 01</h1>
+        <p class="note-body">こんにちは。私はcaféジュジュスタッフの〈桜間〉と申します。
+
+単刀直入に、最近何かお店全体がおかしい気がするんです。みんなが気が付かない内に当たり前が上書きされて行ってるような…。とにかく、どうしようもない違和感がある。
+
+もし、本当に何かが変わっていってしまっているのだとしたら…今の、私の知っているジュジュの姿をお店のあちこちに痕跡として残して、誰かが見つけてくれたら、元のジュジュの姿を憶えていてくれたら嬉しいなと思って、こんな細工をしました。
+
+手始めに、次のメモは私の出身地をパスワードにしています。白い大きなキャビネットの側面に張り付けてありますので、探してみてください。</p>
+      </article>
+    </section>
+
+    <form id="unlock-form" class="unlock-form" autocomplete="off">
+      <label for="password">パスワード</label>
+      <div class="input-row">
+        <input id="password" name="password" type="text" inputmode="text" autocomplete="off" autocapitalize="off">
+        <button type="submit">解除</button>
+      </div>
+      <p id="error-message" class="error-message" role="status"></p>
+    </form>
+
+    <button id="reset-button" class="reset-button" type="button" hidden>進行をリセット</button>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
