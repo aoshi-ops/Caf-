@@ -2,12 +2,20 @@
   "use strict";
 
   var SHOW_RESET_BUTTON = false;
-  var ROUTE_KEY_PREFIX = "sakurama-route:";
-  var UNLOCKED_KEY_PREFIX = "sakurama-unlocked-count:";
+  var sessionState = {
+    routeId: "",
+    unlockedCount: 1
+  };
 
-  var commonFirstNote = {
-    title: "桜間のメモ 01",
-    body: "こんにちは。私はcaféジュジュスタッフの〈桜間〉と申します。\n\n単刀直入に、最近何かお店全体がおかしい気がするんです。みんなが気が付かない内に当たり前が上書きされて行ってるような…。とにかく、どうしようもない違和感がある。\n\nもし、本当に何かが変わっていってしまっているのだとしたら…今の、私の知っているジュジュの姿をお店のあちこちに痕跡として残して、誰かが見つけてくれたら、元のジュジュの姿を憶えていてくれたら嬉しいなと思って、こんな細工をしました。\n\n手始めに、次のメモは私に関係する何かをパスワードにしています。店内のどこかに残した痕跡か、スタッフとの会話の中で見つかると思います。"
+  var firstNotes = {
+    "1f": {
+      title: "桜間のメモ 01",
+      body: "こんにちは。私はcaféジュジュスタッフの〈桜間〉と申します。\n\n単刀直入に、最近何かお店全体がおかしい気がするんです。みんなが気が付かない内に当たり前が上書きされて行ってるような…。とにかく、どうしようもない違和感がある。\n\nもし、本当に何かが変わっていってしまっているのだとしたら…今の、私の知っているジュジュの姿をお店のあちこちに痕跡として残して、誰かが見つけてくれたら、元のジュジュの姿を憶えていてくれたら嬉しいなと思って、こんな細工をしました。\n\n手始めに、次のメモは私の趣味をパスワードにしています。スタッフに「桜間というスタッフは今日いますか？」と聞いてみてください。ジュジュのスタッフは皆お喋りだから、すんなり教えてくれると思います。"
+    },
+    "2f": {
+      title: "桜間のメモ 01",
+      body: "こんにちは。私はcaféジュジュスタッフの〈桜間〉と申します。\n\n単刀直入に、最近何かお店全体がおかしい気がするんです。みんなが気が付かない内に当たり前が上書きされて行ってるような…。とにかく、どうしようもない違和感がある。\n\nもし、本当に何かが変わっていってしまっているのだとしたら…今の、私の知っているジュジュの姿をお店のあちこちに痕跡として残して、誰かが見つけてくれたら、元のジュジュの姿を憶えていてくれたら嬉しいなと思って、こんな細工をしました。\n\n手始めに、次のメモは私の誕生日、あるいは出身地をパスワードにしています。店内のどこかに張り付けてありますので、探してみてください。"
+    }
   };
 
   var lastNote = {
@@ -20,7 +28,7 @@
       firstPassword: "読書",
       passwords: ["読書", "さんげの箱", ["月島", "つきしま", "深海", "みうみ", "旧宮", "ふるみや"]],
       notes: [
-        commonFirstNote,
+        firstNotes["1f"],
         {
           title: "桜間のメモ 02",
           body: "よかった。このメモ、ちゃんと開けたんですね。私の存在ごと消えてしまっていたらどうしようかと思ってました。\n\nスタッフから聞いたかとは思うのですが、私は少し前から体調不良でジュジュに出勤するのが難しくなってしまっています。今は療養のため完全に休みを頂いていますが、それまでも体調の関係で出勤の頻度は少しずつ落ちていっていました。今考えれば、私が違和感に気が付けたのは、たまにしか出勤しなかったからなのかもしれません。それくらい…徐々に変化していったのかも…。\n\n次のメモのパスワードは〈レジのグッズの棚〉の辺りを探せばわかると思います。剥がされたりしたら嫌だから隅っこの方に張り付けてあります。"
@@ -36,7 +44,7 @@
       firstPassword: ["1113", "11/13", "11月13日"],
       passwords: ["1113", "ジュジュ丸", ["月島", "つきしま", "深海", "みうみ", "旧宮", "ふるみや"]],
       notes: [
-        commonFirstNote,
+        firstNotes["2f"],
         {
           title: "桜間のメモ 02",
           body: "よかった。このメモ、ちゃんと開けたんですね。私の存在ごと消えてしまっていたらどうしようかと思ってました。\n\n私は少し前から体調不良でジュジュに出勤するのが難しくなってしまっているんです。今は療養のため完全に休みを頂いていますが、それまでも体調の関係で出勤の頻度は少しずつ落ちていっていました。今考えれば、私が違和感に気が付けたのは、たまにしか出勤しなかったからなのかもしれません。それくらい…徐々に変化していったのかも…。\n\n次のメモのパスワードは〈ある、常連の方のニックネーム〉にしています。依然、お店に呪物を譲ってくださった方で、自己紹介がてら本人がそういっていたこともあって、スタッフは皆、彼の事をニックネームで呼んでいるんです。\n\nエアレジオーダーから無料メニューのガムシロップとシュガースティックを二個ずつ注文してみてください。届けに来たスタッフに「いつも友人がお世話になってます」と言っていただければ、パスワードがわかると思います。"
@@ -52,7 +60,7 @@
       firstPassword: "杉並区",
       passwords: ["杉並区", "ジュジュ丸", ["月島", "つきしま", "深海", "みうみ", "旧宮", "ふるみや"]],
       notes: [
-        commonFirstNote,
+        firstNotes["2f"],
         {
           title: "桜間のメモ 02",
           body: "よかった。このメモ、ちゃんと開けたんですね。私の存在ごと消えてしまっていたらどうしようかと思ってました。\n\n私は少し前から体調不良でジュジュに出勤するのが難しくなってしまっているんです。今は療養のため完全に休みを頂いていますが、それまでも体調の関係で出勤の頻度は少しずつ落ちていっていました。今考えれば、私が違和感に気が付けたのは、たまにしか出勤しなかったからなのかもしれません。それくらい…徐々に変化していったのかも…。\n\n次のメモのパスワードは〈ある、常連の方のニックネーム〉にしています。依然、お店に呪物を譲ってくださった方で、自己紹介がてら本人がそういっていたこともあって、スタッフは皆、彼の事をニックネームで呼んでいるんです。\n\nエアレジオーダーから無料メニューのガムシロップとシュガースティックを二個ずつ注文してみてください。届けに来たスタッフに「いつも友人がお世話になってます」と言っていただければ、パスワードがわかると思います。"
@@ -88,16 +96,8 @@
     return new URLSearchParams(window.location.search).get("entry") || "1f";
   }
 
-  function routeKey() {
-    return ROUTE_KEY_PREFIX + getEntryId();
-  }
-
-  function unlockedKey() {
-    return UNLOCKED_KEY_PREFIX + getEntryId();
-  }
-
   function getRouteId() {
-    return localStorage.getItem(routeKey());
+    return sessionState.routeId;
   }
 
   function getRoute() {
@@ -105,15 +105,11 @@
   }
 
   function getUnlockedCount() {
-    var saved = Number(localStorage.getItem(unlockedKey()));
-    if (!Number.isFinite(saved)) {
-      return 1;
-    }
-    return Math.max(1, Math.min(saved, 4));
+    return Math.max(1, Math.min(sessionState.unlockedCount, 4));
   }
 
   function setUnlockedCount(count) {
-    localStorage.setItem(unlockedKey(), String(Math.max(1, Math.min(count, 4))));
+    sessionState.unlockedCount = Math.max(1, Math.min(count, 4));
   }
 
   function findRouteByFirstPassword(value) {
@@ -139,7 +135,7 @@
     }
 
     return [
-      commonFirstNote,
+      firstNotes[getEntryId()],
       { title: "桜間のメモ 02", body: "" },
       { title: "桜間のメモ 03", body: "" },
       lastNote
@@ -168,7 +164,8 @@
 
       row.className = "memo-row" + (unlocked ? "" : " locked");
       if (unlocked) {
-        row.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=" + index;
+        row.href = "#memo-" + index;
+        row.dataset.viewIndex = String(index);
       } else {
         row.type = "button";
         row.dataset.unlockIndex = String(index);
@@ -194,8 +191,8 @@
     if (SHOW_RESET_BUTTON) {
       resetButton.hidden = false;
       resetButton.addEventListener("click", function () {
-        localStorage.removeItem(routeKey());
-        localStorage.removeItem(unlockedKey());
+        sessionState.routeId = "";
+        sessionState.unlockedCount = 1;
         renderList();
       });
     }
@@ -238,11 +235,11 @@
         return;
       }
 
-      localStorage.setItem(routeKey(), routeId);
+      sessionState.routeId = routeId;
       setUnlockedCount(2);
       dialog.close();
       renderList();
-      window.location.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=1";
+      openMemoDetail(1);
       return;
     }
 
@@ -255,7 +252,7 @@
     setUnlockedCount(index + 1);
     dialog.close();
     renderList();
-    window.location.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=" + index;
+    openMemoDetail(index);
   }
 
   function setupListView() {
@@ -267,6 +264,13 @@
     renderList();
 
     list.addEventListener("click", function (event) {
+      var viewRow = event.target.closest("[data-view-index]");
+      if (viewRow) {
+        event.preventDefault();
+        openMemoDetail(Number(viewRow.dataset.viewIndex));
+        return;
+      }
+
       var row = event.target.closest("[data-unlock-index]");
       if (!row) {
         return;
@@ -279,6 +283,38 @@
     cancel.addEventListener("click", function () {
       dialog.close();
     });
+  }
+
+  function openMemoDetail(index) {
+    var listView = document.getElementById("list-view");
+    var detailView = document.getElementById("detail-view");
+    var detail = document.getElementById("memo-detail");
+    var notes = resolveNotes();
+    var note = notes[index];
+
+    if (!note || index >= getUnlockedCount()) {
+      return;
+    }
+
+    detail.innerHTML = "";
+
+    var title = document.createElement("h1");
+    var body = document.createElement("p");
+    title.textContent = note.title;
+    body.className = "note-body";
+    body.textContent = note.body;
+
+    detail.appendChild(title);
+    detail.appendChild(body);
+    listView.hidden = true;
+    detailView.hidden = false;
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function closeMemoDetail() {
+    document.getElementById("detail-view").hidden = true;
+    document.getElementById("list-view").hidden = false;
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 
   function setupDetailView() {
@@ -311,6 +347,14 @@
 
   if (view === "list") {
     setupListView();
+
+    var backLink = document.getElementById("memo-back-link");
+    if (backLink) {
+      backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        closeMemoDetail();
+      });
+    }
   }
 
   if (view === "detail") {

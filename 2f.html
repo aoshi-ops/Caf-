@@ -13,10 +13,18 @@
       <button id="reset-button" class="plain-button" type="button" hidden>リセット</button>
     </header>
 
-    <section class="notes-list-view" aria-labelledby="page-title">
+    <section id="list-view" class="notes-list-view" aria-labelledby="page-title">
       <p class="folder-label">iCloud</p>
       <h1 id="page-title">メモ</h1>
       <div id="memo-list" class="memo-list" aria-label="桜間のメモ一覧"></div>
+    </section>
+
+    <section id="detail-view" class="memo-detail-view" hidden>
+      <header class="notes-topbar detail-topbar">
+        <a id="memo-back-link" class="back-link" href="#">メモ</a>
+        <p class="detail-date">最近</p>
+      </header>
+      <article id="memo-detail" class="memo-detail" aria-live="polite"></article>
     </section>
   </main>
 
