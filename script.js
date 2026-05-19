@@ -2,8 +2,8 @@
   "use strict";
 
   var SHOW_RESET_BUTTON = false;
-  var ROUTE_KEY = "sakurama-route";
-  var UNLOCKED_KEY = "sakurama-unlocked-count";
+  var ROUTE_KEY_PREFIX = "sakurama-route:";
+  var UNLOCKED_KEY_PREFIX = "sakurama-unlocked-count:";
 
   var commonFirstNote = {
     title: "桜間のメモ 01",
@@ -68,6 +68,10 @@
 
   var noteLabels = ["メモ 01", "メモ 02", "メモ 03", "最後のメモ"];
   var view = document.body.dataset.view;
+  var entryRoutes = {
+    "1f": ["1f"],
+    "2f": ["2f-01", "2f-02"]
+  };
 
   function normalize(value) {
     return value
@@ -76,8 +80,24 @@
       .toLowerCase();
   }
 
+  function getEntryId() {
+    if (document.body.dataset.entry) {
+      return document.body.dataset.entry;
+    }
+
+    return new URLSearchParams(window.location.search).get("entry") || "1f";
+  }
+
+  function routeKey() {
+    return ROUTE_KEY_PREFIX + getEntryId();
+  }
+
+  function unlockedKey() {
+    return UNLOCKED_KEY_PREFIX + getEntryId();
+  }
+
   function getRouteId() {
-    return localStorage.getItem(ROUTE_KEY);
+    return localStorage.getItem(routeKey());
   }
 
   function getRoute() {
@@ -85,7 +105,7 @@
   }
 
   function getUnlockedCount() {
-    var saved = Number(localStorage.getItem(UNLOCKED_KEY));
+    var saved = Number(localStorage.getItem(unlockedKey()));
     if (!Number.isFinite(saved)) {
       return 1;
     }
@@ -93,11 +113,11 @@
   }
 
   function setUnlockedCount(count) {
-    localStorage.setItem(UNLOCKED_KEY, String(Math.max(1, Math.min(count, 4))));
+    localStorage.setItem(unlockedKey(), String(Math.max(1, Math.min(count, 4))));
   }
 
   function findRouteByFirstPassword(value) {
-    return Object.keys(routes).find(function (routeId) {
+    return entryRoutes[getEntryId()].find(function (routeId) {
       return passwordMatches(value, routes[routeId].firstPassword);
     });
   }
@@ -148,7 +168,7 @@
 
       row.className = "memo-row" + (unlocked ? "" : " locked");
       if (unlocked) {
-        row.href = "memo.html?id=" + index;
+        row.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=" + index;
       } else {
         row.type = "button";
         row.dataset.unlockIndex = String(index);
@@ -174,8 +194,8 @@
     if (SHOW_RESET_BUTTON) {
       resetButton.hidden = false;
       resetButton.addEventListener("click", function () {
-        localStorage.removeItem(ROUTE_KEY);
-        localStorage.removeItem(UNLOCKED_KEY);
+        localStorage.removeItem(routeKey());
+        localStorage.removeItem(unlockedKey());
         renderList();
       });
     }
@@ -218,11 +238,11 @@
         return;
       }
 
-      localStorage.setItem(ROUTE_KEY, routeId);
+      localStorage.setItem(routeKey(), routeId);
       setUnlockedCount(2);
       dialog.close();
       renderList();
-      window.location.href = "memo.html?id=1";
+      window.location.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=1";
       return;
     }
 
@@ -235,7 +255,7 @@
     setUnlockedCount(index + 1);
     dialog.close();
     renderList();
-    window.location.href = "memo.html?id=" + index;
+    window.location.href = "memo.html?entry=" + encodeURIComponent(getEntryId()) + "&id=" + index;
   }
 
   function setupListView() {
@@ -263,11 +283,14 @@
 
   function setupDetailView() {
     var detail = document.getElementById("memo-detail");
+    var backLink = document.getElementById("memo-back-link");
     var params = new URLSearchParams(window.location.search);
     var index = Number(params.get("id"));
     var unlockedCount = getUnlockedCount();
     var notes = resolveNotes();
     var note = notes[index];
+
+    backLink.href = getEntryId() + ".html";
 
     if (!Number.isInteger(index) || index < 0 || index >= notes.length || index >= unlockedCount) {
       detail.innerHTML = '<h1>ロックされたメモ</h1><p class="note-body">このメモはまだ開けません。</p>';

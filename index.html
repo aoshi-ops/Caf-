@@ -3,36 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="refresh" content="0; url=1f.html">
   <title>桜間のメモ</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body data-view="list">
+<body>
   <main class="phone-shell">
     <header class="notes-topbar">
-      <p class="back-link">フォルダ</p>
-      <button id="reset-button" class="plain-button" type="button" hidden>リセット</button>
+      <p class="back-link">メモ</p>
     </header>
-
-    <section class="notes-list-view" aria-labelledby="page-title">
-      <p class="folder-label">iCloud</p>
-      <h1 id="page-title">メモ</h1>
-      <div id="memo-list" class="memo-list" aria-label="桜間のメモ一覧"></div>
-    </section>
+    <article class="memo-detail">
+      <h1>桜間のメモ</h1>
+      <p class="note-body"><a class="back-link" href="1f.html">一階用のメモを開く</a></p>
+    </article>
   </main>
-
-  <dialog id="unlock-dialog" class="unlock-dialog">
-    <form id="unlock-form" method="dialog">
-      <p id="unlock-title" class="dialog-title">ロックされたメモ</p>
-      <p id="unlock-help" class="dialog-help">パスワードを入力してください。</p>
-      <input id="password" name="password" type="text" inputmode="text" autocomplete="off" autocapitalize="off">
-      <p id="error-message" class="error-message" role="status"></p>
-      <div class="dialog-actions">
-        <button id="cancel-button" class="dialog-button muted" type="button">キャンセル</button>
-        <button class="dialog-button" type="submit">解除</button>
-      </div>
-    </form>
-  </dialog>
-
-  <script src="script.js"></script>
 </body>
 </html>
