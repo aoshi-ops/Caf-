@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="refresh" content="0; url=index.html">
   <title>桜間のメモ</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-view="detail">
   <main class="phone-shell">
     <header class="notes-topbar">
-      <p class="back-link">メモ</p>
+      <a class="back-link" href="index.html">メモ</a>
+      <p id="detail-date" class="detail-date">最近</p>
     </header>
-    <article class="memo-detail">
-      <h1>桜間のメモ</h1>
-      <p class="note-body"><a class="back-link" href="index.html">メモ一覧を開く</a></p>
-    </article>
+
+    <article id="memo-detail" class="memo-detail" aria-live="polite"></article>
   </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
