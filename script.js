@@ -156,18 +156,18 @@
 
     notes.forEach(function (note, index) {
       var unlocked = index < unlockedCount;
-      var row = document.createElement(unlocked ? "a" : "button");
+      var row = document.createElement("button");
       var body = document.createElement("span");
       var title = document.createElement("span");
       var preview = document.createElement("span");
       var meta = document.createElement("span");
 
       row.className = "memo-row" + (unlocked ? "" : " locked");
+      row.type = "button";
       if (unlocked) {
-        row.href = "#memo-" + index;
         row.dataset.viewIndex = String(index);
+        row.setAttribute("aria-label", noteLabels[index] + "を開く");
       } else {
-        row.type = "button";
         row.dataset.unlockIndex = String(index);
         row.setAttribute("aria-label", noteLabels[index] + "を解除");
       }
